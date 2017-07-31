@@ -1,0 +1,218 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn" *ngIf="!_mode">
+    <span class="spinner"></span>
+
+</div>
+<div class="animated fadeIn" *ngIf="_mode">
+    <div class="row">
+        <div class="col-sm-12">
+            <form [formGroup]="_form" (ngSubmit)="onSubmit()">
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-create" *ngIf="_mode == 'create'">
+                            <strong>Create new patient</strong>
+                        </div>
+                        <div class="update" *ngIf="_mode == 'update'">
+                            <strong>Patient - {{_patient.opd_number}}</strong><br />
+                            <small>Update patient</small>
+                        </div>
+                    </div>
+
+                    <div class="card-block">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="title_id">Title</label>
+                                <select class="form-control" id="title_id" [formControl]="_form.controls['title_id']" [ngClass]="{'form-control-danger': !_isValid('title_id')}" [(ngModel)]="_patient.title_id">
+                                    <option *ngFor="let title of _titles" [value]="title.id" [selected]="">{{title.name}}</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-sm-12" *ngIf="!_formErrors.status.valid">
+                                <span class="help-block help-block-error">{{_formErrors.title_id.message}}</span>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" placeholder="Enter first name" [formControl]="_form.controls['first_name']" [ngClass]="{'form-control-danger': !_isValid('first_name')}" [(ngModel)]="_patient.first_name" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.first_name.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.first_name.message}}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" placeholder="Enter last name" [formControl]="_form.controls['last_name']" [ngClass]="{'form-control-danger': !_isValid('last_name')}" [(ngModel)]="_patient.last_name" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.last_name.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.last_name.message}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="other_name">Other Name</label>
+                                <input type="text" class="form-control" id="other_name" placeholder="Enter other name" [formControl]="_form.controls['other_name']" [ngClass]="{'form-control-danger': !_isValid('other_name')}" [(ngModel)]="_patient.other_name" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.other_name.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.other_name.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="type_id">Patient Type</label>
+                                <select class="form-control" id="type_id" [formControl]="_form.controls['type_id']" [ngClass]="{'form-control-danger': !_isValid('type_id')}" [(ngModel)]="_patient.type_id">
+                                    <option *ngFor="let patientType of _patientTypes" [value]="patientType.id" [selected]="">{{patientType.name}}</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-sm-12" *ngIf="!_formErrors.type_id.valid">
+                                <span class="help-block help-block-error">{{_formErrors.type_id.message}}</span>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="dob">DOB</label>
+                                <input type="text" class="form-control" id="dob" placeholder="Enter dob" [formControl]="_form.controls['dob']" [ngClass]="{'form-control-danger': !_isValid('dob')}" [(ngModel)]="_patient.dob" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.dob.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.dob.message}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="region_id">Region</label>
+                                <input type="text" class="form-control" id="region_id" placeholder="Enter region" [formControl]="_form.controls['region_id']" [ngClass]="{'form-control-danger': !_isValid('region_id')}" [(ngModel)]="_patient.region_id" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.region_id.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.region_id.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="city">City</label>
+                                <input type="text" class="form-control" id="city" placeholder="Enter city" [formControl]="_form.controls['city']" [ngClass]="{'form-control-danger': !_isValid('city')}" [(ngModel)]="_patient.city" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.city.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.city.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="reg_date">Reg Date</label>
+                                <input type="text" class="form-control" id="reg_date" placeholder="Enter registration date" [formControl]="_form.controls['reg_date']" [ngClass]="{'form-control-danger': !_isValid('reg_date')}" [(ngModel)]="_patient.reg_date" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.reg_date.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.reg_date.message}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-5" for="personal_phone">Personal Phone</label>
+                                <input type="text" class="form-control" id="personal_phone" placeholder="Enter personal phone" [formControl]="_form.controls['personal_phone']" [ngClass]="{'form-control-danger': !_isValid('personal_phone')}" [(ngModel)]="_patient.personal_phone" />
+                                <div class="col-sm-12" *ngIf="!_formErrors.personal_phone.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.personal_phone.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="home_phone">Home Phone</label>
+                                <input type="text" class="form-control" id="home_phone" placeholder="Enter home phone" [formControl]="_form.controls['home_phone']" [ngClass]="{'form-control-danger': !_isValid('home_phone')}" [(ngModel)]="_patient.home_phone" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.home_phone.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.home_phone.message}}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="work_phone">Work Phone</label>
+                                <input type="text" class="form-control" id="work_phone" placeholder="Enter work phone" [formControl]="_form.controls['work_phone']" [ngClass]="{'form-control-danger': !_isValid('work_phone')}" [(ngModel)]="_patient.work_phone" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.work_phone.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.work_phone.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-5" for="house_number">House Number</label>
+                                <input type="text" class="form-control" id="house_number" placeholder="Enter house number" [formControl]="_form.controls['house_number']" [ngClass]="{'form-control-danger': !_isValid('house_number')}" [(ngModel)]="_patient.house_number" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.house_number.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.house_number.message}}</span>
+                                </div>
+                            </div> 
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="email">Email Address</label>
+                                <input type="text" class="form-control" id="email" placeholder="Enter email address" [formControl]="_form.controls['email']" [ngClass]="{'form-control-danger': !_isValid('email')}" [(ngModel)]="_patient.email" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.email.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.email.message}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-5" for="address">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="Enter address" [formControl]="_form.controls['address']" [ngClass]="{'form-control-danger': !_isValid('address')}" [(ngModel)]="_patient.address" />
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.address.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.address.message}}</span>
+                                </div>
+                            </div> 
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-4" for="gender_id">Sex</label>
+                                <select class="form-control" id="gender_id" [formControl]="_form.controls['gender_id']" [ngClass]="{'form-control-danger': !_isValid('gender_id')}" [(ngModel)]="_patient.gender_id">
+                                    <option *ngFor="let gender of _genders" [value]="gender.id" [selected]="">{{gender.name}}</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-sm-12" *ngIf="!_formErrors.gender_id.valid">
+                                <span class="help-block help-block-error">{{_formErrors.gender_id.message}}</span>
+                            </div>
+                            
+                            <div class="col-sm-3">
+                                <label class="col-sm-5" for="marital_status_id">Marital Status</label>
+                                <select class="form-control" id="marital_status_id" [formControl]="_form.controls['marital_status_id']" [ngClass]="{'form-control-danger': !_isValid('marital_status_id')}" [(ngModel)]="_patient.marital_status_id">
+                                    <option *ngFor="let maritalStatus of _maritalStatuses" [value]="maritalStatus.id" [selected]="">{{maritalStatus.name}}</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-sm-12" *ngIf="!_formErrors.marital_status_id.valid">
+                                <span class="help-block help-block-error">{{_formErrors.marital_status_id.message}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-sm btn-primary" [disabled]="!_form.valid || _submitted == true"><i class="fa fa-dot-circle-o"></i> Save</button>
+                                <div *ngIf="_submitted" class="spinner"></div>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <a [routerLink]="['/user']" class="btn btn-sm btn-warning"><i class="fa fa-arrow-left"></i> Back to list</a>
+                            </div>
+                            <div *ngIf="_errorMessage" class="col-xs-12 error-block mt-h">
+                                <div class="alert alert-danger">{{_errorMessage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
